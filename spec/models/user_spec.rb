@@ -19,5 +19,8 @@ RSpec.describe User, type: :model do
     it " should be invalid if nil" do
       expect(build(:user, is_admin: nil)).to be_invalid
     end
+    it " should be valid if false" do
+      expect(build(:user, is_admin: false)).to be_valid
+    end
   end
 end
