@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :cart do
-    product { nil }
-    user { nil }
+    user { association :user }
+    product { association :product }
   end
 end
