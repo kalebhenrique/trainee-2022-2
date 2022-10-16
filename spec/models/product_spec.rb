@@ -11,8 +11,8 @@ RSpec.describe Product, type: :model do
     end
 
     it " should be invalid if repeated" do
-      create(:product, name: "Z Flip")
-      expect(build(:product, name: "Z Flip")).to be_invalid
+      create(:product, name: "S22")
+      expect(build(:product, name: "S22")).to be_invalid
     end
   end
 
