@@ -4,8 +4,8 @@ class Api::V1::BrandsController < ApplicationController
         render json: brand, status: :ok
     end
     def show
-        genre = Genre.find(params[:id])
-        render json: genre, status: :ok
+        brand = Brand.find(params[:id])
+        render json: brand, status: :ok
     rescue StandardError
         head(:not_found)
     end

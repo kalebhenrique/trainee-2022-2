@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     namespace 'v1' do
       scope 'brands' do
         get 'index', to: 'brands#index'
-        get 'show/:id', to: 'genre#show'
+        get 'show/:id', to: 'brands#show'
       end
     end
   end

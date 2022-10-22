@@ -40,4 +40,23 @@ RSpec.describe "Api::V1::Brands", type: :request do
       end
     end
   end
+  describe " GET /show" do
+    let(:brand) {create(:brand)}
+    context 'id exist' do
+      before do
+        get "/api/v1/brands/show/#{brand.id}"
+      end
+      it 'return http status ok' do
+        expect(response).to have_http_status(:ok)
+      end
+    end
+    context 'id not found' do
+      before do
+        get "/api/v1/brands/show/-1"
+      end
+      it 'return https not_found' do
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
 end
