@@ -40,6 +40,7 @@ RSpec.describe "Api::V1::Brands", type: :request do
       end
     end
   end
+
   describe " GET /show" do
     let(:brand) {create(:brand)}
     context 'id exist' do
@@ -56,6 +57,31 @@ RSpec.describe "Api::V1::Brands", type: :request do
       end
       it 'return https not_found' do
         expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
+  describe " POST /create" do
+    let(:brand_params) do
+      attributes_for(:brand)
+    end
+    context 'params are ok' do
+      it 'return https status created' do
+        p brand_params
+        post "/api/v1/brands/create", params: {brand: brand_params}
+        expect(response).to have_http_status(:created)
+      end
+    end
+    context 'params are bad' do
+      it 'when params is nil' do
+        brand_params = nil
+        post "/api/v1/brands/create", params: {brand: brand_params}
+        expect(response).to have_http_status(:bad_request)
+      end
+      it 'params is not uniq' do
+        post "/api/v1/brands/create", params: {brand: brand_params}
+        post "/api/v1/brands/create", params: {brand: brand_params}
+        expect(response).to have_http_status(:bad_request)
       end
     end
   end
