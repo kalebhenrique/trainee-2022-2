@@ -108,4 +108,20 @@ RSpec.describe "Api::V1::Brands", type: :request do
       end
     end
   end
+
+  describe " DELETE /delete/:id" do
+    let(:brand) {create(:brand)}
+    context 'brand exist' do
+      it 'return https status ok' do
+        delete "/api/v1/brands/delete/#{brand.id}"
+        expect(response).to have_http_status(:ok)
+      end
+    end
+    context 'brand does not exist' do
+      it 'return https status bad_request' do
+        delete "/api/v1/brands/delete/-1"
+        expect(response).to have_http_status(:bad_request)
+      end
+    end
+  end
 end

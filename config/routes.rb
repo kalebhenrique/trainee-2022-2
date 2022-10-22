@@ -6,6 +6,7 @@ Rails.application.routes.draw do
         get 'show/:id', to: 'brands#show'
         post 'create', to: 'brands#create'
         patch 'update/:id', to: 'brands#update'
+        delete 'delete/:id', to: 'brands#delete'
       end
     end
   end
