@@ -5,6 +5,7 @@ Rails.application.routes.draw do
         get 'index', to: 'brands#index'
         get 'show/:id', to: 'brands#show'
         post 'create', to: 'brands#create'
+        patch 'update/:id', to: 'brands#update'
       end
     end
   end

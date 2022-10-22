@@ -85,4 +85,27 @@ RSpec.describe "Api::V1::Brands", type: :request do
       end
     end
   end
+
+  describe " PATCH /update/:id" do
+    let(:brand5) {create(:brand, name: "Brand5")}
+    let(:brand6) {create(:brand, name: "Brand6")}
+    context 'params are ok' do
+      it 'return https status ok' do
+        patch "/api/v1/brands/update/#{brand5.id}", params: {brand: {name: "Intel"}}
+        expect(response).to have_http_status(:ok)
+      end
+    end
+    context 'params are nil' do
+      it 'return https status bad_request' do
+        patch "/api/v1/brands/update/#{brand5.id}", params: {brand: {name: nil}}
+        expect(response).to have_http_status(:bad_request)
+      end
+    end
+    context 'params are not uniq' do
+      it 'return https status bad_request' do
+        patch "/api/v1/brands/update/#{brand5.id}", params: {brand: {name: brand6.name}}
+        expect(response).to have_http_status(:bad_request)
+      end
+    end
+  end
 end
