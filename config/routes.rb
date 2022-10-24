@@ -15,6 +15,13 @@ Rails.application.routes.draw do
         patch 'update/:id', to: 'categories#update'
         delete 'delete/:id', to: 'categories#delete'
       end
+      scope 'products' do
+        get 'index', to: 'products#index'
+        get 'show/:id', to: 'products#show'
+        post 'create', to: 'products#create'
+        patch 'update/:id', to: 'products#update'
+        delete 'delete/:id', to: 'products#delete'
+      end
     end
   end
 end
