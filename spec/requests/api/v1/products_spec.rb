@@ -14,7 +14,7 @@ RSpec.describe "Api::V1::Products", type: :request do
       create(:product, 
         id:1, 
         name:"Samsung A13",
-        price: 100000, 
+        price_in_cents: 100000, 
         description: "Smartphone",
         inventory: 50, 
         category_id: 1, 
@@ -23,7 +23,7 @@ RSpec.describe "Api::V1::Products", type: :request do
       create(:product, 
         id:4, 
         name:"Samsung Odyssey", 
-        price: 500000, 
+        price_in_cents: 500000, 
         description: "Laptop",
         inventory: 10,
         category_id: 2, 
@@ -31,7 +31,7 @@ RSpec.describe "Api::V1::Products", type: :request do
       create(:product, 
         id:7, 
         name:"Mouse Logitech", 
-        price: 3000, 
+        price_in_cents: 3000, 
         description: "Mouse",
         inventory: 60,
         category_id: 3, 
@@ -51,7 +51,7 @@ RSpec.describe "Api::V1::Products", type: :request do
         expect(JSON.parse(response.body)).to eq([{
           'id' => 1,
           'name' => "Samsung A13",
-          'price' => 100000,
+          'price_in_cents' => 100000,
           'description' => "Smartphone",
           'inventory' => 50,
           'category_id' => 1,
@@ -62,7 +62,7 @@ RSpec.describe "Api::V1::Products", type: :request do
         {
           'id' => 4,
           'name' => "Samsung Odyssey",
-          'price' => 500000,
+          'price_in_cents' => 500000,
           'description' => "Laptop",
           'inventory' => 10,
           'category_id' => 2,
@@ -73,7 +73,7 @@ RSpec.describe "Api::V1::Products", type: :request do
         {
           'id' => 7,
           'name' => "Mouse Logitech",
-          'price' => 3000, 
+          'price_in_cents' => 3000, 
           'description' => "Mouse",
           'inventory' => 60, 
           'category_id' => 3,
@@ -114,7 +114,7 @@ RSpec.describe "Api::V1::Products", type: :request do
     end
     product_params = {
         name: "name",
-        price: 10,
+        price_in_cents: 10,
         description: "description",
         inventory: 1,
         category_id: 1,
