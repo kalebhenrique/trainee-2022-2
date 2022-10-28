@@ -25,15 +25,15 @@ RSpec.describe User, type: :model do
   end
   describe 'validates' do
     context "when admin has no email" do
-      it {expect(build(:admin, email: nil)).to be_invalid} 
+      it {expect(build(:user, email: nil)).to be_invalid} 
     end   
     context 'when admin has no password' do  
-      it {expect(build(:admin, password: nil)).to be_invalid}
+      it {expect(build(:user, password: nil)).to be_invalid}
     end
     context 'when email is not unique' do
       it do
-        create(:admin, email: "listaaut@gmail")
-        expect(build(:admin, email: "listaaut@gmail")).to be_invalid  
+        create(:user, email: "listaaut@gmail")
+        expect(build(:user, email: "listaaut@gmail")).to be_invalid  
       end    
     end
   end  
