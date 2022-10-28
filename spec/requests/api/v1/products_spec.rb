@@ -3,11 +3,41 @@ require 'rails_helper'
 RSpec.describe "Api::V1::Products", type: :request do
   describe "GET /index" do
     before do
-      create(:product, id:1, name:"Samsung A13")
-      create(:product, id:2, name:"Samsung Odyssey")
-      create(:product, id:3, name:"Mouse Logitech")
+      create(:brand, id:1, name:"Apple")
+      create(:brand, id:2, name:"Samsung")
+      create(:brand, id:3, name:"Logitech")
+
+      create(:category, id:1, name:"Celulares")
+      create(:category, id:2, name:"Computadores")
+      create(:category, id:3, name:"Periféricos")
+
+      create(:product, 
+        id:1, 
+        name:"Samsung A13",
+        price: 100000, 
+        description: "Smartphone",
+        inventory: 50, 
+        category_id: 1, 
+        brand_id: 2,
+      )
+      create(:product, 
+        id:4, 
+        name:"Samsung Odyssey", 
+        price: 500000, 
+        description: "Laptop",
+        inventory: 10,
+        category_id: 2, 
+        brand_id: 2 )
+      create(:product, 
+        id:7, 
+        name:"Mouse Logitech", 
+        price: 3000, 
+        description: "Mouse",
+        inventory: 60,
+        category_id: 3, 
+        brand_id: 3)
     end
-    context 'when index return' do
+    context 'when index' do
       before do
         get '/api/v1/products/index'
       end
@@ -30,26 +60,26 @@ RSpec.describe "Api::V1::Products", type: :request do
           'updated_at' => eval(Product.find(1).updated_at.to_json)
         },
         {
-          'id' => 2,
+          'id' => 4,
           'name' => "Samsung Odyssey",
           'price' => 500000,
-          'description' => "LAptop",
+          'description' => "Laptop",
           'inventory' => 10,
           'category_id' => 2,
           'brand_id' => 2,
-          'created_at' => eval(Product.find(2).created_at.to_json),
-          'updated_at' => eval(Product.find(2).updated_at.to_json)
+          'created_at' => eval(Product.find(4).created_at.to_json),
+          'updated_at' => eval(Product.find(4).updated_at.to_json)
         },
         {
-          'id' => 3,
+          'id' => 7,
           'name' => "Mouse Logitech",
           'price' => 3000, 
           'description' => "Mouse",
           'inventory' => 60, 
           'category_id' => 3,
           'brand_id' => 3,
-          'created_at' => eval(Product.find(3).created_at.to_json),
-          'updated_at' => eval(Product.find(3).updated_at.to_json)
+          'created_at' => eval(Product.find(7).created_at.to_json),
+          'updated_at' => eval(Product.find(7).updated_at.to_json)
         }
         ])
       end
@@ -77,9 +107,20 @@ RSpec.describe "Api::V1::Products", type: :request do
   end
 
   describe " POST /create" do
-    let(:product_params) do
-      attributes_for(:product)
+    before do
+      create(:brand, id:1, name:"Apple")
+
+      create(:category, id:1, name:"Celulares")
     end
+    product_params = {
+        name: "name",
+        price: 10,
+        description: "description",
+        inventory: 1,
+        category_id: 1,
+        brand_id: 1
+       }
+
     context 'params are ok' do
       it 'return https status created' do
         p product_params
