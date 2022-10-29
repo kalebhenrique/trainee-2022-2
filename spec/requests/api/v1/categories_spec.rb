@@ -62,64 +62,94 @@ RSpec.describe "Api::V1::Categories", type: :request do
   end
 
   describe " POST /create" do
+    let(:user) {create(:user)}
     let(:category_params) do
       attributes_for(:category)
     end
     context 'params are ok' do
       it 'return https status created' do
         p category_params
-        post "/api/v1/categories/create", params: {category: category_params}
+        post "/api/v1/categories/create", params: {category: category_params}, headers: {
+          'X-User-Email': user.email,
+          'X-User-Token': user.authentication_token
+        }
         expect(response).to have_http_status(:created)
       end
     end
     context 'params are bad' do
       it 'when params is nil' do
         category_params = nil
-        post "/api/v1/categories/create", params: {category: category_params}
+        post "/api/v1/categories/create", params: {category: category_params}, headers: {
+          'X-User-Email': user.email,
+          'X-User-Token': user.authentication_token
+        }
         expect(response).to have_http_status(:bad_request)
       end
       it 'params is not uniq' do
-        post "/api/v1/categories/create", params: {category: category_params}
-        post "/api/v1/categories/create", params: {category: category_params}
+        post "/api/v1/categories/create", params: {category: category_params}, headers: {
+          'X-User-Email': user.email,
+          'X-User-Token': user.authentication_token
+        }
+        post "/api/v1/categories/create", params: {category: category_params}, headers: {
+          'X-User-Email': user.email,
+          'X-User-Token': user.authentication_token
+        }
         expect(response).to have_http_status(:bad_request)
       end
     end
   end
 
   describe " PATCH /update/:id" do
+    let(:user) {create(:user)}
     let(:category5) {create(:category, name: "Category5")}
     let(:category6) {create(:category, name: "Category6")}
     context 'params are ok' do
       it 'return https status ok' do
-        patch "/api/v1/categories/update/#{category5.id}", params: {category: {name: "Notebook"}}
+        patch "/api/v1/categories/update/#{category5.id}", params: {category: {name: "Notebook"}}, headers: {
+          'X-User-Email': user.email,
+          'X-User-Token': user.authentication_token
+        }
         expect(response).to have_http_status(:ok)
       end
     end
     context 'params are nil' do
       it 'return https status bad_request' do
-        patch "/api/v1/categories/update/#{category5.id}", params: {category: {name: nil}}
+        patch "/api/v1/categories/update/#{category5.id}", params: {category: {name: nil}}, headers: {
+          'X-User-Email': user.email,
+          'X-User-Token': user.authentication_token
+        }
         expect(response).to have_http_status(:bad_request)
       end
     end
     context 'params are not uniq' do
       it 'return https status bad_request' do
-        patch "/api/v1/categories/update/#{category5.id}", params: {category: {name: category6.name}}
+        patch "/api/v1/categories/update/#{category5.id}", params: {category: {name: category6.name}}, headers: {
+          'X-User-Email': user.email,
+          'X-User-Token': user.authentication_token
+        }
         expect(response).to have_http_status(:bad_request)
       end
     end
   end
 
   describe " DELETE /delete/:id" do
+    let(:user) {create(:user)}
     let(:category) {create(:category)}
     context 'category exist' do
       it 'return https status ok' do
-        delete "/api/v1/categories/delete/#{category.id}"
+        delete "/api/v1/categories/delete/#{category.id}", headers: {
+          'X-User-Email': user.email,
+          'X-User-Token': user.authentication_token
+        }
         expect(response).to have_http_status(:ok)
       end
     end
     context 'category does not exist' do
       it 'return https status bad_request' do
-        delete "/api/v1/categories/delete/-1"
+        delete "/api/v1/categories/delete/-1", headers: {
+          'X-User-Email': user.email,
+          'X-User-Token': user.authentication_token
+        }
         expect(response).to have_http_status(:bad_request)
       end
     end
