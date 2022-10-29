@@ -66,3 +66,8 @@ Product.create!(name: "Headset Logitech",
     inventory: 60, 
     category_id: 3,
     brand_id: 3)
+
+User.create!(email: "listaaut@gmail",
+    password: "123456",
+    wallet: 1,
+    is_admin: true)

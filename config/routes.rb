@@ -23,6 +23,9 @@ Rails.application.routes.draw do
         patch 'update/:id', to: 'products#update'
         delete 'delete/:id', to: 'products#delete'
       end
+      scope 'users' do
+        get 'login', to: 'users#login'
+      end
     end
   end
 end
