@@ -1,4 +1,5 @@
 class Api::V1::ProductsController < ApplicationController
+    acts_as_token_authentication_handler_for User, only:[:create,:update,:delete]
     def index
         product = Product.all
         render json: product, status: :ok
