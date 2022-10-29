@@ -14,7 +14,7 @@ RSpec.describe "Api::V1::Products", type: :request do
       create(:product, 
         id:1, 
         name:"Samsung A13",
-        price: 100000, 
+        price_in_cents: 100000, 
         description: "Smartphone",
         inventory: 50, 
         category_id: 1, 
@@ -23,7 +23,7 @@ RSpec.describe "Api::V1::Products", type: :request do
       create(:product, 
         id:4, 
         name:"Samsung Odyssey", 
-        price: 500000, 
+        price_in_cents: 500000, 
         description: "Laptop",
         inventory: 10,
         category_id: 2, 
@@ -31,7 +31,7 @@ RSpec.describe "Api::V1::Products", type: :request do
       create(:product, 
         id:7, 
         name:"Mouse Logitech", 
-        price: 3000, 
+        price_in_cents: 3000, 
         description: "Mouse",
         inventory: 60,
         category_id: 3, 
@@ -51,7 +51,7 @@ RSpec.describe "Api::V1::Products", type: :request do
         expect(JSON.parse(response.body)).to eq([{
           'id' => 1,
           'name' => "Samsung A13",
-          'price' => 100000,
+          'price_in_cents' => 100000,
           'description' => "Smartphone",
           'inventory' => 50,
           'category_id' => 1,
@@ -62,7 +62,7 @@ RSpec.describe "Api::V1::Products", type: :request do
         {
           'id' => 4,
           'name' => "Samsung Odyssey",
-          'price' => 500000,
+          'price_in_cents' => 500000,
           'description' => "Laptop",
           'inventory' => 10,
           'category_id' => 2,
@@ -73,7 +73,7 @@ RSpec.describe "Api::V1::Products", type: :request do
         {
           'id' => 7,
           'name' => "Mouse Logitech",
-          'price' => 3000, 
+          'price_in_cents' => 3000, 
           'description' => "Mouse",
           'inventory' => 60, 
           'category_id' => 3,
@@ -107,6 +107,7 @@ RSpec.describe "Api::V1::Products", type: :request do
   end
 
   describe " POST /create" do
+    let(:user) {create(:user)}
     before do
       create(:brand, id:1, name:"Apple")
 
@@ -114,7 +115,7 @@ RSpec.describe "Api::V1::Products", type: :request do
     end
     product_params = {
         name: "name",
-        price: 10,
+        price_in_cents: 10,
         description: "description",
         inventory: 1,
         category_id: 1,
@@ -124,58 +125,87 @@ RSpec.describe "Api::V1::Products", type: :request do
     context 'params are ok' do
       it 'return https status created' do
         p product_params
-        post "/api/v1/products/create", params: {product: product_params}
+        post "/api/v1/products/create", params: {product: product_params}, headers: {
+          'X-User-Email': user.email,
+          'X-User-Token': user.authentication_token
+        }
         expect(response).to have_http_status(:created)
       end
     end
     context 'params are bad' do
       it 'when params is nil' do
         product_params = nil
-        post "/api/v1/products/create", params: {product: product_params}
+        post "/api/v1/products/create", params: {product: product_params}, headers: {
+          'X-User-Email': user.email,
+          'X-User-Token': user.authentication_token
+        }
         expect(response).to have_http_status(:bad_request)
       end
       it 'params is not uniq' do
-        post "/api/v1/products/create", params: {product: product_params}
-        post "/api/v1/products/create", params: {product: product_params}
+        post "/api/v1/products/create", params: {product: product_params}, headers: {
+          'X-User-Email': user.email,
+          'X-User-Token': user.authentication_token
+        }
+        post "/api/v1/products/create", params: {product: product_params}, headers: {
+          'X-User-Email': user.email,
+          'X-User-Token': user.authentication_token
+        }
         expect(response).to have_http_status(:bad_request)
       end
     end
   end
 
   describe " PATCH /update/:id" do
+    let(:user) {create(:user)}
     let(:product5) {create(:product, name: "Product5")}
     let(:product6) {create(:product, name: "Product6")}
     context 'params are ok' do
       it 'return https status ok' do
-        patch "/api/v1/products/update/#{product5.id}", params: {product: {name: "Mouse Razer"}}
+        patch "/api/v1/products/update/#{product5.id}", params: {product: {name: "Mouse Razer"}}, headers: {
+          'X-User-Email': user.email,
+          'X-User-Token': user.authentication_token
+        }
         expect(response).to have_http_status(:ok)
       end
     end
     context 'params are nil' do
       it 'return https status bad_request' do
-        patch "/api/v1/products/update/#{product5.id}", params: {product: {name: nil}}
+        patch "/api/v1/products/update/#{product5.id}", params: {product: {name: nil}}, headers: {
+          'X-User-Email': user.email,
+          'X-User-Token': user.authentication_token
+        }
         expect(response).to have_http_status(:bad_request)
       end
     end
     context 'params are not uniq' do
       it 'return https status bad_request' do
-        patch "/api/v1/products/update/#{product5.id}", params: {product: {name: product6.name}}
+        patch "/api/v1/products/update/#{product5.id}", params: {product: {name: product6.name}}, headers: {
+          'X-User-Email': user.email,
+          'X-User-Token': user.authentication_token
+        }
         expect(response).to have_http_status(:bad_request)
       end
     end
   end
 
   describe " DELETE /delete/:id" do
+    let(:user) {create(:user)}
     let(:product) {create(:product)}
     context 'product exist' do
       it 'return https status ok' do
-        delete "/api/v1/products/delete/#{product.id}"
+        delete "/api/v1/products/delete/#{product.id}", headers: {
+          'X-User-Email': user.email,
+          'X-User-Token': user.authentication_token
+        }
         expect(response).to have_http_status(:ok)
       end
     end
     context 'product does not exist' do
       it 'return https status bad_request' do
-        delete "/api/v1/products/delete/-1"
+        delete "/api/v1/products/delete/-1", headers: {
+          'X-User-Email': user.email,
+          'X-User-Token': user.authentication_token
+        }
         expect(response).to have_http_status(:bad_request)
       end
     end

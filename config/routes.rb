@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users, skip: :all
   namespace 'api' do
     namespace 'v1' do
       scope 'brands' do
@@ -21,6 +22,10 @@ Rails.application.routes.draw do
         post 'create', to: 'products#create'
         patch 'update/:id', to: 'products#update'
         delete 'delete/:id', to: 'products#delete'
+      end
+      scope 'users' do
+        get 'login', to: 'users#login'
+        get 'logout', to: 'users#logout'
       end
     end
   end

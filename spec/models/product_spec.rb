@@ -41,4 +41,28 @@ RSpec.describe Product, type: :model do
       expect(build(:product, category_id: -1)).to be_invalid
     end
   end
+
+  context "Validating inventory" do
+    it " should be invalid if nil" do
+      expect(build(:product, inventory: nil)).to be_invalid
+    end
+    it " should be invalid if double" do
+      expect(build(:product, inventory: 1.1)).to be_invalid
+    end
+    it " should be invalid if negative" do
+      expect(build(:product, inventory: -1)).to be_invalid
+    end
+  end
+
+  context "Validating price" do
+    it " should be invalid if nil" do
+      expect(build(:product, price_in_cents: nil)).to be_invalid
+    end
+    it " should be invalid if double" do
+      expect(build(:product, price_in_cents: 1.1)).to be_invalid
+    end
+    it " should be invalid if negative" do
+      expect(build(:product, price_in_cents: -1)).to be_invalid
+    end
+  end
 end

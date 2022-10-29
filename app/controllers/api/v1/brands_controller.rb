@@ -1,4 +1,5 @@
 class Api::V1::BrandsController < ApplicationController
+    acts_as_token_authentication_handler_for User, only:[:create,:update,:delete]
     def index
         brand = Brand.all
         render json: brand, status: :ok
