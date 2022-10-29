@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       end
       scope 'users' do
         get 'login', to: 'users#login'
+        get 'logout', to: 'users#logout'
       end
     end
   end

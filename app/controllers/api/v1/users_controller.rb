@@ -9,4 +9,11 @@ class Api::V1::UsersController < ApplicationController
     rescue StandardError => e
 	    render json: {messege: e.message}, status: :unauthorized
     end
+    def logout
+        current_user.authentication_token = nil
+        current_user.save!
+        head(:ok)
+    rescue StandardError => e
+	    render json: {message: e.message}, status: :bad_request
+    end
 end
