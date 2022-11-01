@@ -3,7 +3,7 @@ FactoryBot.define do
     wallet { 1 }
     email {'listaaut@gmail'}
     password {123456}
-      is_admin { false }
+      is_admin { true }
     trait :admin do
       is_admin { true }
     end
