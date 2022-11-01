@@ -27,6 +27,11 @@ Rails.application.routes.draw do
         get 'login', to: 'users#login'
         get 'logout', to: 'users#logout'
       end
+      scope 'carts' do
+        get 'show/:id', to: 'carts#show'
+        post 'create', to: 'carts#create'
+        delete 'delete/:id', to: 'carts#delete'
+      end
     end
   end
 end
