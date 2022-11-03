@@ -68,7 +68,6 @@ RSpec.describe "Api::V1::Brands", type: :request do
     end
     context 'params are ok' do
       it 'return https status created' do
-        p brand_params
         post "/api/v1/brands/create", params: {brand: brand_params}, headers: {
           'X-User-Email': user.email,
           'X-User-Token': user.authentication_token
