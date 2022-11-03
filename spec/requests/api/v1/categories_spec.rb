@@ -68,7 +68,6 @@ RSpec.describe "Api::V1::Categories", type: :request do
     end
     context 'params are ok' do
       it 'return https status created' do
-        p category_params
         post "/api/v1/categories/create", params: {category: category_params}, headers: {
           'X-User-Email': user.email,
           'X-User-Token': user.authentication_token

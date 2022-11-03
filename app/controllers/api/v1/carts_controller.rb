@@ -28,7 +28,9 @@ class Api::V1::CartsController < ApplicationController
     
     private
 
-    def brand_params
-        params.require(:brand).permit(:name)
+    def cart_params
+        params.require(:cart).permit(
+            :product_id, 
+            :user_id)
     end
 end

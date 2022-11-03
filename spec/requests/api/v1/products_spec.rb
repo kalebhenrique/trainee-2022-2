@@ -124,7 +124,6 @@ RSpec.describe "Api::V1::Products", type: :request do
 
     context 'params are ok' do
       it 'return https status created' do
-        p product_params
         post "/api/v1/products/create", params: {product: product_params}, headers: {
           'X-User-Email': user.email,
           'X-User-Token': user.authentication_token

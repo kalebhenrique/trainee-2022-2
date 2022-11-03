@@ -1,7 +1,11 @@
 FactoryBot.define do
+  sequence :user_emails do |n|
+    "email#{n}@gmail"
+  end
+  
   factory :user do
     wallet { 1 }
-    email {'listaaut@gmail'}
+    email { generate(:user_emails) }
     password {123456}
       is_admin { true }
     trait :admin do

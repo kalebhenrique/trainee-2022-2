@@ -23,12 +23,34 @@ RSpec.describe "Api::V1::Carts", type: :request do
 
   describe " POST /create" do
     let(:user) {create(:user)}
-    let(:cart_params) do
-      attributes_for(:cart)
+    before do
+      create(:category, id:1, name:"Celulares")
+
+      create(:brand, id:2, name:"Samsung")
+
+      create(:product, 
+        id:1, 
+        name:"Samsung A13",
+        price_in_cents: 100000, 
+        description: "Smartphone",
+        inventory: 50, 
+        category_id: 1, 
+        brand_id: 2,
+      )
+
+      create(:user, 
+        id: 2, 
+        email: "listaaut3@gmail",
+        password: "123456",
+        wallet: 1,
+        is_admin: true)
     end
+    cart_params = {
+      user_id: 2,
+      product_id: 1
+    }
     context 'params are ok' do
       it 'return https status created' do
-        p cart_params
         post "/api/v1/carts/create", params: {cart: cart_params}, headers: {
           'X-User-Email': user.email,
           'X-User-Token': user.authentication_token
