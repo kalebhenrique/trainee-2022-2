@@ -8,4 +8,6 @@ class User < ApplicationRecord
     validates :wallet, presence: :true
     validates :is_admin, inclusion: [true, false], exclusion: [nil]
     validates :wallet, numericality: { only_integer: true, :greater_than_or_equal_to => 0}
+  
+    has_one_attached :profile_picture
 end

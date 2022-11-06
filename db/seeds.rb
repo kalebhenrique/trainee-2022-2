@@ -79,3 +79,11 @@ User.create!(email: "listaaut2@gmail",
 
 Cart.create!(product_id: 1,
     user_id: 1)
+
+Brand.find_by(name: 'Apple').logo.attach(io: File.open('./public/img.png'), filename: 'img.png')
+
+User.find_by(email: 'listaaut@gmail').profile_picture.attach(io: File.open('./public/img.png'), filename: 'img.png')
+
+Product.first.images.attach(io: File.open('./public/img.png'), filename: 'img.png')
+
+Product.first.images.attach(io: File.open('./public/img.png'), filename: 'img.png')

@@ -1,5 +1,10 @@
 class BrandSerializer < ActiveModel::Serializer
-  attributes :id, :name
+  include Rails.application.routes.url_helpers
+  attributes :id, :name, :logo_url
 
   has_many :products
+
+  def logo_url
+    rails_blob_path(object.logo, only_path: true) if object.logo.attached?
+end
 end
