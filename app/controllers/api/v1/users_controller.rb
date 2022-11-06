@@ -16,4 +16,10 @@ class Api::V1::UsersController < ApplicationController
     rescue StandardError => e
 	    render json: {message: e.message}, status: :bad_request
     end
+
+    private
+
+    def user_params
+        params.require(:user).permit(:name, :profile_picture)
+    end
 end

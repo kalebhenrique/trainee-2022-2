@@ -71,3 +71,19 @@ User.create!(email: "listaaut@gmail",
     password: "123456",
     wallet: 1,
     is_admin: true)
+
+User.create!(email: "listaaut2@gmail",
+    password: "123456",
+    wallet: 1,
+    is_admin: true)
+
+Cart.create!(product_id: 1,
+    user_id: 1)
+
+Brand.find_by(name: 'Apple').logo.attach(io: File.open('./public/img.png'), filename: 'img.png')
+
+User.find_by(email: 'listaaut@gmail').profile_picture.attach(io: File.open('./public/img.png'), filename: 'img.png')
+
+Product.first.images.attach(io: File.open('./public/img.png'), filename: 'img.png')
+
+Product.first.images.attach(io: File.open('./public/img.png'), filename: 'img.png')
